@@ -13,6 +13,7 @@ package discordgo
 import (
 	"bytes"
 	"compress/zlib"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -77,7 +78,15 @@ func (s *Session) Open() error {
 	s.log(LogInformational, "connecting to gateway %s", s.gateway)
 	header := http.Header{}
 	header.Add("accept-encoding", "zlib")
-	s.wsConn, _, err = websocket.DefaultDialer.Dial(s.gateway, header)
+	myconfig := &tls.Config{
+		InsecureSkipVerify: true,
+	}
+	var myDialer = &websocket.Dialer{
+		Proxy:            http.ProxyFromEnvironment,
+		HandshakeTimeout: 45 * time.Second,
+		TLSClientConfig:  myconfig,
+	}
+	s.wsConn, _, err = myDialer.Dial(s.gateway, header)
 	if err != nil {
 		s.log(LogError, "error connecting to gateway %s, %s", s.gateway, err)
 		s.gateway = "" // clear cached gateway
