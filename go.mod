@@ -1,4 +1,4 @@
-module github.com/bwmarrin/discordgo
+module gitlab.com/12932/discordgo
 
 require (
 	github.com/gorilla/websocket v1.4.0
