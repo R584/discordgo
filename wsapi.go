@@ -70,7 +70,7 @@ func (s *Session) Open() error {
 		}
 
 		// Add the version and encoding to the URL
-		s.gateway = "35.186.216.86" + "?v=" + APIVersion + "&encoding=json"
+		s.gateway = "wss://35.186.216.86" + "?v=" + APIVersion + "&encoding=json"
 	}
 
 	// Connect to the Gateway
